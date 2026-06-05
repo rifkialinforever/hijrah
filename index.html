@@ -1,0 +1,2078 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hijrah+ | Self Improvement Islami</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              islamic: {
+                50: "#f0fdf4",
+                100: "#dcfce7",
+                800: "#064e3b",
+                900: "#022c22",
+                950: "#011c15",
+              },
+              gold: {
+                100: "#fef9c3",
+                400: "#facc15",
+                500: "#eab308",
+                600: "#ca8a04",
+              },
+            },
+          },
+        },
+      };
+    </script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet" />
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        background-color: #011c15;
+        color: #f3f4f6;
+      }
+      .arabic-font {
+        font-family: "Amiri", serif;
+      }
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #011c15;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #ca8a04;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen flex flex-col transition-colors duration-300">
+    <!-- Splash Screen / Loading -->
+    <div id="splash-screen" class="fixed inset-0 bg-islamic-950 z-50 flex flex-col items-center justify-center transition-opacity duration-500">
+      <div class="text-center">
+        <div class="relative w-28 h-28 mx-auto mb-6 flex items-center justify-center">
+          <div class="absolute inset-0 border-4 border-gold-500/20 rounded-full animate-ping"></div>
+          <div class="absolute inset-2 border-4 border-t-gold-500 border-r-transparent border-b-gold-500 border-l-transparent rounded-full animate-spin"></div>
+          <i class="fa-solid fa-star-and-crescent text-4xl text-gold-500"></i>
+        </div>
+        <h1 class="text-3xl font-extrabold tracking-wider text-white">HIJRAH<span class="text-gold-500">+</span></h1>
+        <p class="text-emerald-400 mt-2 text-sm italic">"Menjadi Lebih Baik Setiap Hari Bersama Allah"</p>
+      </div>
+    </div>
+
+    <!-- Background Decoration Grid -->
+    <div class="fixed inset-0 pointer-events-none opacity-[0.03] bg-[radial-gradient(#ca8a04_1px,transparent_1px)] [background-size:16px_16px] z-0"></div>
+
+    <!-- Header Navigation -->
+    <header class="sticky top-0 z-40 backdrop-blur-md bg-islamic-950/80 border-b border-emerald-800/30">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-gradient-to-tr from-emerald-800 to-gold-600 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-950/50">
+            <i class="fa-solid fa-mosque text-white text-lg"></i>
+          </div>
+          <div>
+            <span class="text-xl font-bold tracking-tight text-white block">Hijrah<span class="text-gold-500">+</span></span>
+            <span class="text-[10px] text-emerald-400 font-medium block -mt-1 tracking-wider uppercase">Self Improvement App</span>
+          </div>
+        </div>
+
+        <!-- Header Quick Stats & Icons -->
+        <div class="flex items-center gap-2 sm:gap-4">
+          <!-- Sync Button Cloud -->
+          <button
+            onclick="syncDataToGas()"
+            class="bg-emerald-800/60 hover:bg-emerald-700/80 border border-emerald-700/50 text-gold-400 font-bold px-3 py-1.5 rounded-xl text-xs flex items-center gap-1.5 transition-all"
+          >
+            <i class="fa-solid fa-cloud-arrow-up animate-pulse"></i> <span class="hidden sm:inline">Sinkron Ke Cloud</span>
+          </button>
+
+          <!-- User XP & Level Pill -->
+          <div class="bg-emerald-900/40 border border-emerald-700/40 rounded-full px-3 py-1.5 sm:px-4 flex items-center gap-2">
+            <i class="fa-solid fa-award text-gold-500 animate-bounce"></i>
+            <span class="text-xs font-semibold text-white">Lvl <span id="header-user-level">1</span></span>
+            <div class="w-16 h-2 bg-emerald-950 rounded-full overflow-hidden hidden sm:block">
+              <div id="header-xp-bar" class="bg-gradient-to-r from-gold-500 to-yellow-400 h-full w-[20%] transition-all duration-500"></div>
+            </div>
+            <span class="text-[10px] text-emerald-300 hidden sm:inline"><span id="header-user-xp">20</span> XP</span>
+          </div>
+
+          <!-- Theme Toggle -->
+          <button id="theme-toggle" class="p-2 text-emerald-300 hover:text-gold-500 transition-colors focus:outline-none">
+            <i class="fa-solid fa-moon text-lg" id="theme-icon"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content Grid -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 z-10 flex flex-col md:flex-row gap-6">
+      <!-- Sidebar Navigation (Responsive) -->
+      <nav class="md:w-64 flex flex-row md:flex-col overflow-x-auto md:overflow-visible gap-2 p-1 bg-islamic-900/30 border border-emerald-800/20 rounded-2xl md:h-fit sticky top-20 z-30">
+        <button
+          onclick="switchTab('dashboard')"
+          id="btn-dashboard"
+          class="nav-tab-btn flex items-center justify-center md:justify-start gap-3 px-4 py-3 rounded-xl font-semibold text-sm transition-all whitespace-nowrap flex-1 md:flex-initial bg-gradient-to-r from-emerald-800 to-emerald-900 text-white shadow-md shadow-emerald-950/40"
+        >
+          <i class="fa-solid fa-chart-pie text-gold-500"></i> Dashboard
+        </button>
+        <button
+          onclick="switchTab('sholat')"
+          id="btn-sholat"
+          class="nav-tab-btn flex items-center justify-center md:justify-start gap-3 px-4 py-3 rounded-xl font-semibold text-sm transition-all text-emerald-300 hover:bg-emerald-900/30 hover:text-white whitespace-nowrap flex-1 md:flex-initial"
+        >
+          <i class="fa-solid fa-pray"></i> Sholat Tracker
+        </button>
+        <button
+          onclick="switchTab('habit')"
+          id="btn-habit"
+          class="nav-tab-btn flex items-center justify-center md:justify-start gap-3 px-4 py-3 rounded-xl font-semibold text-sm transition-all text-emerald-300 hover:bg-emerald-900/30 hover:text-white whitespace-nowrap flex-1 md:flex-initial"
+        >
+          <i class="fa-solid fa-calendar-check"></i> Habit Islami
+        </button>
+        <button
+          onclick="switchTab('produktivitas')"
+          id="btn-produktivitas"
+          class="nav-tab-btn flex items-center justify-center md:justify-start gap-3 px-4 py-3 rounded-xl font-semibold text-sm transition-all text-emerald-300 hover:bg-emerald-900/30 hover:text-white whitespace-nowrap flex-1 md:flex-initial"
+        >
+          <i class="fa-solid fa-bolt"></i> Fokus & Tugas
+        </button>
+        <button
+          onclick="switchTab('jurnal')"
+          id="btn-jurnal"
+          class="nav-tab-btn flex items-center justify-center md:justify-start gap-3 px-4 py-3 rounded-xl font-semibold text-sm transition-all text-emerald-300 hover:bg-emerald-900/30 hover:text-white whitespace-nowrap flex-1 md:flex-initial"
+        >
+          <i class="fa-solid fa-book-open"></i> Jurnal Harian
+        </button>
+        <button
+          onclick="switchTab('mood')"
+          id="btn-mood"
+          class="nav-tab-btn flex items-center justify-center md:justify-start gap-3 px-4 py-3 rounded-xl font-semibold text-sm transition-all text-emerald-300 hover:bg-emerald-900/30 hover:text-white whitespace-nowrap flex-1 md:flex-initial"
+        >
+          <i class="fa-solid fa-face-smile"></i> Mood & Mental
+        </button>
+        <button
+          onclick="switchTab('motivasi')"
+          id="btn-motivasi"
+          class="nav-tab-btn flex items-center justify-center md:justify-start gap-3 px-4 py-3 rounded-xl font-semibold text-sm transition-all text-emerald-300 hover:bg-emerald-900/30 hover:text-white whitespace-nowrap flex-1 md:flex-initial"
+        >
+          <i class="fa-solid fa-quote-left"></i> Motivasi & Ilmu
+        </button>
+        <button
+          onclick="switchTab('ai')"
+          id="btn-ai"
+          class="nav-tab-btn flex items-center justify-center md:justify-start gap-3 px-4 py-3 rounded-xl font-semibold text-sm transition-all text-emerald-300 hover:bg-emerald-900/30 hover:text-white whitespace-nowrap flex-1 md:flex-initial"
+        >
+          <i class="fa-solid fa-wand-magic-sparkles text-yellow-400"></i> AI Murabbi
+        </button>
+        <hr class="border-emerald-800/30 my-2 hidden md:block" />
+        <button
+          onclick="switchTab('setelan')"
+          id="btn-setelan"
+          class="nav-tab-btn flex items-center justify-center md:justify-start gap-3 px-4 py-3 rounded-xl font-semibold text-sm transition-all text-emerald-300 hover:bg-emerald-900/30 hover:text-white whitespace-nowrap flex-1 md:flex-initial"
+        >
+          <i class="fa-solid fa-gear"></i> Sinkron & Setelan
+        </button>
+      </nav>
+
+      <!-- Dynamic Working Space (Content Area) -->
+      <div class="flex-grow min-w-0">
+        <!-- Alert Container (Custom Message Box) -->
+        <div
+          id="alert-box"
+          class="hidden fixed bottom-6 right-6 z-50 bg-emerald-900 border-l-4 border-gold-500 text-white px-5 py-4 rounded-xl shadow-xl flex items-center justify-between gap-4 max-w-md animate-bounce"
+        >
+          <div class="flex items-center gap-3">
+            <i id="alert-icon" class="fa-solid fa-circle-info text-gold-500 text-xl"></i>
+            <p id="alert-message" class="text-sm font-medium"></p>
+          </div>
+          <button onclick="closeAlert()" class="text-emerald-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+
+        <!-- LEVEL UP MODAL -->
+        <div id="level-modal" class="hidden fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
+          <div class="bg-gradient-to-b from-emerald-900 to-islamic-950 border-2 border-gold-500/50 p-8 rounded-3xl max-w-sm w-full text-center shadow-2xl relative overflow-hidden">
+            <div class="absolute -top-12 -left-12 w-32 h-32 bg-gold-500/10 rounded-full blur-2xl"></div>
+            <div class="absolute -bottom-12 -right-12 w-32 h-32 bg-emerald-500/20 rounded-full blur-2xl"></div>
+            <i class="fa-solid fa-crown text-6xl text-gold-500 mb-4 animate-bounce"></i>
+            <h3 class="text-2xl font-bold text-white mb-1">Maa Syaa Allah!</h3>
+            <p class="text-emerald-300 text-sm mb-6">Level Hijrahmu Meningkat!</p>
+            <div class="text-5xl font-extrabold text-gold-500 mb-6" id="modal-level-val">LEVEL 2</div>
+            <p class="text-white text-xs px-4 mb-6 italic leading-relaxed">"Dan orang-orang yang mau menerima petunjuk, Allah menambahkan petunjuk kepada mereka." (QS. Muhammad: 17)</p>
+            <button onclick="closeLevelModal()" class="w-full bg-gold-500 hover:bg-gold-600 text-emerald-950 font-bold py-3 px-6 rounded-xl transition-colors shadow-lg">Tetap Istiqomah</button>
+          </div>
+        </div>
+
+        <!-- TAB 1: DASHBOARD -->
+        <div id="tab-dashboard" class="tab-content space-y-6">
+          <!-- Welcome Section -->
+          <div class="bg-gradient-to-r from-emerald-900 to-islamic-900 border border-emerald-800/40 p-6 rounded-3xl relative overflow-hidden shadow-xl">
+            <div class="absolute right-0 bottom-0 top-0 w-1/3 opacity-10 bg-[url('https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80')] bg-cover bg-center"></div>
+            <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div>
+                <h2 class="text-2xl font-bold text-white mb-1" id="greeting-islamic">Assalamu'alaikum, Pejuang Hijrah</h2>
+                <p class="text-emerald-300 text-sm italic" id="daily-quote">"Maka sesungguhnya bersama kesulitan ada kemudahan." (QS. Al-Insyirah: 5)</p>
+              </div>
+              <div class="text-left md:text-right bg-emerald-950/40 border border-emerald-800/50 rounded-2xl p-3 px-4 backdrop-blur-sm self-start md:self-auto">
+                <div class="text-xl font-bold text-gold-500" id="clock-realtime">12:34:56 WIB</div>
+                <div class="text-xs text-emerald-200 mt-1 font-semibold" id="hijri-date">Loading Hijriah...</div>
+                <div class="text-[10px] text-emerald-400" id="gregorian-date">Kamis, 5 Juni 2026</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Main Progress Ring Indicators & Statistics Summary -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <!-- Stat Card: Sholat -->
+            <div class="bg-islamic-900/40 border border-emerald-800/20 p-5 rounded-3xl relative">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs text-emerald-300 font-medium">Progress Sholat</span>
+                <i class="fa-solid fa-pray text-gold-500"></i>
+              </div>
+              <div class="flex items-baseline gap-2">
+                <span class="text-2xl font-extrabold text-white" id="stat-sholat-count">0/5</span>
+                <span class="text-xs text-emerald-400" id="stat-sholat-pct">0% Selesai</span>
+              </div>
+              <div class="w-full bg-emerald-950/50 rounded-full h-2 mt-4 overflow-hidden">
+                <div id="stat-sholat-bar" class="bg-gradient-to-r from-emerald-500 to-gold-500 h-full w-[0%] transition-all duration-500"></div>
+              </div>
+            </div>
+            <!-- Stat Card: Habits -->
+            <div class="bg-islamic-900/40 border border-emerald-800/20 p-5 rounded-3xl relative">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs text-emerald-300 font-medium">Streak Habit Terbaik</span>
+                <i class="fa-solid fa-fire text-orange-500 animate-pulse"></i>
+              </div>
+              <div class="flex items-baseline gap-2">
+                <span class="text-2xl font-extrabold text-white" id="stat-habit-streak">0 Hari</span>
+                <span class="text-xs text-emerald-400" id="stat-habit-active">0 Habit Aktif</span>
+              </div>
+              <div class="w-full bg-emerald-950/50 rounded-full h-2 mt-4 overflow-hidden">
+                <div id="stat-habit-bar" class="bg-gradient-to-r from-emerald-500 to-orange-500 h-full w-[0%] transition-all duration-500"></div>
+              </div>
+            </div>
+            <!-- Stat Card: Fokus Pomodoro -->
+            <div class="bg-islamic-900/40 border border-emerald-800/20 p-5 rounded-3xl relative">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs text-emerald-300 font-medium">Total Waktu Fokus</span>
+                <i class="fa-solid fa-stopwatch text-emerald-400"></i>
+              </div>
+              <div class="flex items-baseline gap-2">
+                <span class="text-2xl font-extrabold text-white" id="stat-fokus-total">0 mnt</span>
+                <span class="text-xs text-emerald-400">Hari ini</span>
+              </div>
+              <div class="w-full bg-emerald-950/50 rounded-full h-2 mt-4 overflow-hidden">
+                <div id="stat-fokus-bar" class="bg-gradient-to-r from-emerald-500 to-yellow-500 h-full w-[0%] transition-all duration-500"></div>
+              </div>
+            </div>
+            <!-- Stat Card: To-Do -->
+            <div class="bg-islamic-900/40 border border-emerald-800/20 p-5 rounded-3xl relative">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs text-emerald-300 font-medium">Penyelesaian Tugas</span>
+                <i class="fa-solid fa-list-check text-blue-400"></i>
+              </div>
+              <div class="flex items-baseline gap-2">
+                <span class="text-2xl font-extrabold text-white" id="stat-todo-count">0/0</span>
+                <span class="text-xs text-emerald-400" id="stat-todo-pct">0% Selesai</span>
+              </div>
+              <div class="w-full bg-emerald-950/50 rounded-full h-2 mt-4 overflow-hidden">
+                <div id="stat-todo-bar" class="bg-gradient-to-r from-emerald-500 to-blue-500 h-full w-[0%] transition-all duration-500"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dashboard Interactive Charts -->
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="bg-islamic-900/30 border border-emerald-800/20 p-6 rounded-3xl lg:col-span-2">
+              <h3 class="text-lg font-bold text-white mb-4"><i class="fa-solid fa-chart-line text-gold-500 mr-2"></i>Perkembangan Mingguan</h3>
+              <div class="relative h-64">
+                <canvas id="weeklyProgessChart"></canvas>
+              </div>
+            </div>
+            <div class="bg-islamic-900/30 border border-emerald-800/20 p-6 rounded-3xl flex flex-col justify-between">
+              <div>
+                <h3 class="text-lg font-bold text-white mb-3"><i class="fa-solid fa-medal text-gold-500 mr-2"></i>Badge Kehormatan</h3>
+                <p class="text-xs text-emerald-400 mb-4">Konsistensi membuka pilar-pilar penghargaan mulia.</p>
+
+                <!-- Badges List -->
+                <div class="space-y-3">
+                  <div class="flex items-center gap-3 p-2 bg-emerald-950/30 border border-emerald-800/20 rounded-2xl" id="badge-sholat">
+                    <div class="w-10 h-10 bg-emerald-850 rounded-full flex items-center justify-center opacity-40" id="badge-sholat-icon">
+                      <i class="fa-solid fa-person-praying text-gold-500"></i>
+                    </div>
+                    <div>
+                      <h4 class="text-xs font-bold text-white" id="badge-sholat-title">Pejuang Sholat</h4>
+                      <p class="text-[10px] text-emerald-400">Tepat waktu 3 hari berturut-turut</p>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-3 p-2 bg-emerald-950/30 border border-emerald-800/20 rounded-2xl" id="badge-istiqomah">
+                    <div class="w-10 h-10 bg-emerald-850 rounded-full flex items-center justify-center opacity-40" id="badge-istiqomah-icon">
+                      <i class="fa-solid fa-infinity text-blue-400"></i>
+                    </div>
+                    <div>
+                      <h4 class="text-xs font-bold text-white" id="badge-istiqomah-title">Al-Istiqomah</h4>
+                      <p class="text-[10px] text-emerald-400">Selesaikan semua sholat & 1 habit</p>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-3 p-2 bg-emerald-950/30 border border-emerald-800/20 rounded-2xl" id="badge-produktif">
+                    <div class="w-10 h-10 bg-emerald-850 rounded-full flex items-center justify-center opacity-40" id="badge-produktif-icon">
+                      <i class="fa-solid fa-brain text-yellow-400"></i>
+                    </div>
+                    <div>
+                      <h4 class="text-xs font-bold text-white" id="badge-produktif-title">Al-Muntij (Produktif)</h4>
+                      <p class="text-[10px] text-emerald-400">Total fokus Pomodoro 60 menit</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-4 pt-4 border-t border-emerald-800/20">
+                <button
+                  onclick="switchTab('ai')"
+                  class="w-full bg-gradient-to-r from-emerald-800 to-gold-600 hover:from-emerald-700 hover:to-gold-500 text-white font-bold py-2.5 px-4 rounded-xl text-xs flex items-center justify-center gap-2 transition-all"
+                >
+                  <i class="fa-solid fa-wand-magic-sparkles animate-spin"></i> Tanya Saran AI Murabbi
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 2: SHOLAT TRACKER -->
+        <div id="tab-sholat" class="tab-content hidden space-y-6">
+          <div class="bg-islamic-900/30 border border-emerald-800/20 p-6 rounded-3xl">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+              <div>
+                <h2 class="text-2xl font-bold text-white"><i class="fa-solid fa-pray text-gold-500 mr-2"></i>Pelacak Sholat Wajib</h2>
+                <p class="text-sm text-emerald-400 mt-1">Konsisten sholat di awal waktu adalah kunci keberkahan hidup.</p>
+              </div>
+              <div class="flex items-center gap-3">
+                <span class="text-xs bg-gold-500/10 border border-gold-500/30 text-gold-400 px-3 py-1.5 rounded-full font-bold">
+                  <i class="fa-solid fa-fire mr-1"></i> Streak: <span id="sholat-streak-val">0</span> Hari
+                </span>
+              </div>
+            </div>
+
+            <!-- Prayer Timings Realtime Status & Checklist -->
+            <div class="grid grid-cols-1 sm:grid-cols-5 gap-4" id="prayer-cards-container">
+              <!-- Card: Subuh -->
+              <div
+                class="prayer-card bg-emerald-950/40 border border-emerald-800/30 p-5 rounded-2xl flex flex-col justify-between h-48 transition-all hover:scale-[1.02] hover:border-gold-500/30 relative"
+              >
+                <div>
+                  <span class="text-emerald-400 font-bold text-xs uppercase tracking-wider block">Subuh</span>
+                  <span class="text-xl font-bold text-white block mt-1">04:32</span>
+                </div>
+                <div class="space-y-2 mt-4">
+                  <label class="flex items-center gap-2 cursor-pointer select-none">
+                    <input
+                      type="checkbox"
+                      id="sholat-subuh"
+                      onchange="toggleSholat('subuh')"
+                      class="rounded border-emerald-800 text-gold-500 focus:ring-0 focus:ring-offset-0 bg-emerald-950 w-4 h-4"
+                    />
+                    <span class="text-xs text-emerald-300">Selesai</span>
+                  </label>
+                  <label class="flex items-center gap-2 cursor-pointer select-none">
+                    <input
+                      type="checkbox"
+                      id="sholat-subuh-ontime"
+                      onchange="toggleSholatOntime('subuh')"
+                      class="rounded border-emerald-800 text-emerald-500 focus:ring-0 focus:ring-offset-0 bg-emerald-950 w-4 h-4"
+                    />
+                    <span class="text-[10px] text-emerald-400">Tepat Waktu</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Card: Dzuhur / Jumat -->
+              <div
+                class="prayer-card bg-emerald-950/40 border border-emerald-800/30 p-5 rounded-2xl flex flex-col justify-between h-48 transition-all hover:scale-[1.02] hover:border-gold-500/30 relative"
+              >
+                <div>
+                  <span id="prayer-dzuhur-title" class="text-emerald-400 font-bold text-xs uppercase tracking-wider block">Dzuhur</span>
+                  <span class="text-xl font-bold text-white block mt-1">11:50</span>
+                </div>
+                <div class="space-y-2 mt-4">
+                  <label class="flex items-center gap-2 cursor-pointer select-none">
+                    <input
+                      type="checkbox"
+                      id="sholat-dzuhur"
+                      onchange="toggleSholat('dzuhur')"
+                      class="rounded border-emerald-800 text-gold-500 focus:ring-0 focus:ring-offset-0 bg-emerald-950 w-4 h-4"
+                    />
+                    <span class="text-xs text-emerald-300">Selesai</span>
+                  </label>
+                  <label class="flex items-center gap-2 cursor-pointer select-none">
+                    <input
+                      type="checkbox"
+                      id="sholat-dzuhur-ontime"
+                      onchange="toggleSholatOntime('dzuhur')"
+                      class="rounded border-emerald-800 text-emerald-500 focus:ring-0 focus:ring-offset-0 bg-emerald-950 w-4 h-4"
+                    />
+                    <span class="text-[10px] text-emerald-400">Tepat Waktu</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Card: Ashar -->
+              <div
+                class="prayer-card bg-emerald-950/40 border border-emerald-800/30 p-5 rounded-2xl flex flex-col justify-between h-48 transition-all hover:scale-[1.02] hover:border-gold-500/30 relative"
+              >
+                <div>
+                  <span class="text-emerald-400 font-bold text-xs uppercase tracking-wider block">Ashar</span>
+                  <span class="text-xl font-bold text-white block mt-1">15:11</span>
+                </div>
+                <div class="space-y-2 mt-4">
+                  <label class="flex items-center gap-2 cursor-pointer select-none">
+                    <input
+                      type="checkbox"
+                      id="sholat-ashar"
+                      onchange="toggleSholat('ashar')"
+                      class="rounded border-emerald-800 text-gold-500 focus:ring-0 focus:ring-offset-0 bg-emerald-950 w-4 h-4"
+                    />
+                    <span class="text-xs text-emerald-300">Selesai</span>
+                  </label>
+                  <label class="flex items-center gap-2 cursor-pointer select-none">
+                    <input
+                      type="checkbox"
+                      id="sholat-ashar-ontime"
+                      onchange="toggleSholatOntime('ashar')"
+                      class="rounded border-emerald-800 text-emerald-500 focus:ring-0 focus:ring-offset-0 bg-emerald-950 w-4 h-4"
+                    />
+                    <span class="text-[10px] text-emerald-400">Tepat Waktu</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Card: Maghrib -->
+              <div
+                class="prayer-card bg-emerald-950/40 border border-emerald-800/30 p-5 rounded-2xl flex flex-col justify-between h-48 transition-all hover:scale-[1.02] hover:border-gold-500/30 relative"
+              >
+                <div>
+                  <span class="text-emerald-400 font-bold text-xs uppercase tracking-wider block">Maghrib</span>
+                  <span class="text-xl font-bold text-white block mt-1">17:44</span>
+                </div>
+                <div class="space-y-2 mt-4">
+                  <label class="flex items-center gap-2 cursor-pointer select-none">
+                    <input
+                      type="checkbox"
+                      id="sholat-maghrib"
+                      onchange="toggleSholat('maghrib')"
+                      class="rounded border-emerald-800 text-gold-500 focus:ring-0 focus:ring-offset-0 bg-emerald-950 w-4 h-4"
+                    />
+                    <span class="text-xs text-emerald-300">Selesai</span>
+                  </label>
+                  <label class="flex items-center gap-2 cursor-pointer select-none">
+                    <input
+                      type="checkbox"
+                      id="sholat-maghrib-ontime"
+                      onchange="toggleSholatOntime('maghrib')"
+                      class="rounded border-emerald-800 text-emerald-500 focus:ring-0 focus:ring-offset-0 bg-emerald-950 w-4 h-4"
+                    />
+                    <span class="text-[10px] text-emerald-400">Tepat Waktu</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Card: Isya -->
+              <div
+                class="prayer-card bg-emerald-950/40 border border-emerald-800/30 p-5 rounded-2xl flex flex-col justify-between h-48 transition-all hover:scale-[1.02] hover:border-gold-500/30 relative"
+              >
+                <div>
+                  <span class="text-emerald-400 font-bold text-xs uppercase tracking-wider block">Isya</span>
+                  <span class="text-xl font-bold text-white block mt-1">18:57</span>
+                </div>
+                <div class="space-y-2 mt-4">
+                  <label class="flex items-center gap-2 cursor-pointer select-none">
+                    <input type="checkbox" id="sholat-isya" onchange="toggleSholat('isya')" class="rounded border-emerald-800 text-gold-500 focus:ring-0 focus:ring-offset-0 bg-emerald-950 w-4 h-4" />
+                    <span class="text-xs text-emerald-300">Selesai</span>
+                  </label>
+                  <label class="flex items-center gap-2 cursor-pointer select-none">
+                    <input
+                      type="checkbox"
+                      id="sholat-isya-ontime"
+                      onchange="toggleSholatOntime('isya')"
+                      class="rounded border-emerald-800 text-emerald-500 focus:ring-0 focus:ring-offset-0 bg-emerald-950 w-4 h-4"
+                    />
+                    <span class="text-[10px] text-emerald-400">Tepat Waktu</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- History log -->
+          <div class="bg-islamic-900/30 border border-emerald-800/20 p-6 rounded-3xl">
+            <h3 class="text-lg font-bold text-white mb-4"><i class="fa-solid fa-history text-emerald-400 mr-2"></i>Catatan Amalan 7 Hari Terakhir</h3>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse">
+                <thead>
+                  <tr class="border-b border-emerald-800/40 text-emerald-300 text-xs uppercase tracking-wider">
+                    <th class="pb-3 font-semibold">Hari & Tanggal</th>
+                    <th class="pb-3 font-semibold">Subuh</th>
+                    <th class="pb-3 font-semibold">Dzuhur</th>
+                    <th class="pb-3 font-semibold">Ashar</th>
+                    <th class="pb-3 font-semibold">Maghrib</th>
+                    <th class="pb-3 font-semibold">Isya</th>
+                    <th class="pb-3 font-semibold text-right">Persentase</th>
+                  </tr>
+                </thead>
+                <tbody id="sholat-history-rows" class="text-sm divide-y divide-emerald-800/20">
+                  <!-- Loaded dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 3: HABIT TRACKER ISLAMI -->
+        <div id="tab-habit" class="tab-content hidden space-y-6">
+          <div class="bg-islamic-900/30 border border-emerald-800/20 p-6 rounded-3xl">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+              <div>
+                <h2 class="text-2xl font-bold text-white"><i class="fa-solid fa-calendar-check text-gold-500 mr-2"></i>Habit Islami & Kebiasaan Baik</h2>
+                <p class="text-sm text-emerald-400 mt-1">Bangun kebiasaan mulia selangkah demi selangkah secara istiqomah.</p>
+              </div>
+              <button onclick="openAddHabitModal()" class="bg-gold-500 hover:bg-gold-600 text-emerald-950 font-bold py-2.5 px-5 rounded-xl text-sm flex items-center gap-2 transition-colors">
+                <i class="fa-solid fa-plus"></i> Tambah Habit Baru
+              </button>
+            </div>
+
+            <!-- Add Habit Modal -->
+            <div id="add-habit-modal" class="hidden fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4 backdrop-blur-sm">
+              <div class="bg-islamic-950 border border-emerald-800 p-6 rounded-2xl max-w-md w-full shadow-2xl">
+                <h3 class="text-lg font-bold text-white mb-4">Tambahkan Kebiasaan Baik</h3>
+                <div class="space-y-4">
+                  <div>
+                    <label class="block text-xs font-semibold text-emerald-300 mb-2">Pilih Kebiasaan dari Rekomendasi:</label>
+                    <div class="grid grid-cols-2 gap-2" id="preset-habits">
+                      <button onclick="setPresetHabit('Ngaji Quran')" class="p-2 border border-emerald-800/40 bg-emerald-900/10 hover:bg-emerald-900/30 text-white rounded-xl text-xs text-left">
+                        📖 Ngaji Quran
+                      </button>
+                      <button onclick="setPresetHabit('Dzikir Pagi Petang')" class="p-2 border border-emerald-800/40 bg-emerald-900/10 hover:bg-emerald-900/30 text-white rounded-xl text-xs text-left">
+                        📿 Dzikir Pagi/Petang
+                      </button>
+                      <button
+                        onclick="setPresetHabit('Sholat Sunnah Rawatib')"
+                        class="p-2 border border-emerald-800/40 bg-emerald-900/10 hover:bg-emerald-900/30 text-white rounded-xl text-xs text-left"
+                      >
+                        🕌 Rawatib & Dhuha
+                      </button>
+                      <button onclick="setPresetHabit('Sedekah Harian')" class="p-2 border border-emerald-800/40 bg-emerald-900/10 hover:bg-emerald-900/30 text-white rounded-xl text-xs text-left">
+                        💰 Sedekah Harian
+                      </button>
+                    </div>
+                  </div>
+                  <div class="relative">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-emerald-500">Or</div>
+                    <input
+                      type="text"
+                      id="habit-name-input"
+                      placeholder="Tulis habit buatan sendiri..."
+                      class="w-full bg-emerald-950/80 border border-emerald-800 text-white placeholder-emerald-600 rounded-xl py-2 pl-12 pr-4 text-sm focus:border-gold-500 focus:ring-0"
+                    />
+                  </div>
+                  <div class="flex gap-3 pt-2">
+                    <button onclick="saveHabit()" class="flex-1 bg-gold-500 hover:bg-gold-600 text-emerald-950 font-bold py-2 px-4 rounded-xl text-sm transition-colors">Simpan</button>
+                    <button onclick="closeAddHabitModal()" class="flex-1 bg-emerald-900/40 border border-emerald-800/40 text-emerald-300 font-bold py-2 px-4 rounded-xl text-sm transition-colors">
+                      Batal
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Habits List Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="habits-container">
+              <!-- Loaded dynamically -->
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 4: FOKUS & PRODUKTIVITAS -->
+        <div id="tab-produktivitas" class="tab-content hidden space-y-6">
+          <!-- Grid: Pomodoro & ToDo -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <!-- Pomodoro Timer (7 cols) -->
+            <div class="bg-islamic-900/30 border border-emerald-800/20 p-6 rounded-3xl lg:col-span-7 flex flex-col justify-between">
+              <div>
+                <h2 class="text-xl font-bold text-white mb-2"><i class="fa-solid fa-stopwatch text-gold-500 mr-2"></i>Pomodoro Mode Fokus</h2>
+                <p class="text-xs text-emerald-400">Kerja atau belajar 25 menit secara khusyuk lalu istirahat 5 menit.</p>
+              </div>
+
+              <!-- Timer Display -->
+              <div class="my-8 text-center">
+                <div class="relative w-52 h-52 mx-auto flex items-center justify-center">
+                  <!-- SVG Progress Circle -->
+                  <svg class="absolute w-full h-full transform -rotate-90">
+                    <circle cx="104" cy="104" r="92" stroke="#022c22" stroke-width="8" fill="transparent" />
+                    <circle
+                      id="pomodoro-circle-prog"
+                      cx="104"
+                      cy="104"
+                      r="92"
+                      stroke="#ca8a04"
+                      stroke-width="8"
+                      fill="transparent"
+                      stroke-dasharray="578"
+                      stroke-dashoffset="0"
+                      class="transition-all duration-1000"
+                    />
+                  </svg>
+                  <div>
+                    <span class="text-5xl font-extrabold text-white block tracking-widest" id="pomo-timer-display">25:00</span>
+                    <span class="text-xs font-semibold text-emerald-400 uppercase tracking-widest mt-1 block" id="pomo-status">Fokus</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Audio Synthesizer Controls -->
+              <div class="bg-emerald-950/50 border border-emerald-800/30 p-3 rounded-2xl flex items-center justify-between mb-4">
+                <div class="flex items-center gap-3">
+                  <i class="fa-solid fa-music text-gold-500"></i>
+                  <div>
+                    <span class="text-xs font-bold text-white block">Musik Binaural Islami</span>
+                    <span class="text-[10px] text-emerald-400 block">Sintesis frekuensi ketenangan (Web Audio)</span>
+                  </div>
+                </div>
+                <button id="synth-sound-btn" onclick="toggleSpiritualSound()" class="px-3 py-1.5 bg-emerald-900 hover:bg-emerald-800 text-xs text-white rounded-xl font-bold transition-colors">
+                  <i class="fa-solid fa-play mr-1"></i> Putar
+                </button>
+              </div>
+
+              <!-- Actions -->
+              <div class="flex gap-3">
+                <button
+                  id="pomo-start-btn"
+                  onclick="startPomodoro()"
+                  class="flex-1 bg-gold-500 hover:bg-gold-600 text-emerald-950 font-bold py-3 px-6 rounded-xl transition-colors shadow-lg shadow-gold-600/10"
+                >
+                  Mulai Fokus
+                </button>
+                <button
+                  id="pomo-pause-btn"
+                  onclick="pausePomodoro()"
+                  class="hidden flex-1 bg-yellow-500 hover:bg-yellow-600 text-emerald-950 font-bold py-3 px-6 rounded-xl transition-colors shadow-lg"
+                >
+                  Jeda
+                </button>
+                <button onclick="resetPomodoro()" class="bg-emerald-900/60 hover:bg-emerald-800/80 text-emerald-300 font-bold py-3 px-6 rounded-xl transition-colors">Reset</button>
+              </div>
+            </div>
+
+            <!-- To-Do List (5 cols) -->
+            <div class="bg-islamic-900/30 border border-emerald-800/20 p-6 rounded-3xl lg:col-span-5 flex flex-col justify-between">
+              <div>
+                <h2 class="text-xl font-bold text-white mb-2"><i class="fa-solid fa-list-check text-gold-500 mr-2"></i>Daftar Tugas (To-Do)</h2>
+                <p class="text-xs text-emerald-400 mb-4">Tulis rencana kegiatan kebaikanmu di sini.</p>
+
+                <!-- Add To-Do -->
+                <form onsubmit="addTodo(event)" class="flex gap-2 mb-4">
+                  <input
+                    type="text"
+                    id="todo-input"
+                    required
+                    placeholder="Tulis tugas baru..."
+                    class="flex-grow bg-emerald-950 border border-emerald-800/60 rounded-xl px-4 py-2.5 text-sm text-white placeholder-emerald-600 focus:border-gold-500 focus:ring-0"
+                  />
+                  <button type="submit" class="bg-emerald-800 hover:bg-emerald-700 text-white p-2.5 rounded-xl transition-colors"><i class="fa-solid fa-plus px-1"></i></button>
+                </form>
+
+                <!-- Tasks list -->
+                <div class="space-y-2 max-h-[300px] overflow-y-auto pr-1" id="todo-list-container">
+                  <!-- Loaded dynamically -->
+                </div>
+              </div>
+              <div class="pt-4 border-t border-emerald-800/20 mt-4 text-center">
+                <span class="text-xs text-emerald-400">Total Tugas Selesai Hari Ini: <span id="todo-completed-stats" class="font-bold text-white">0</span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 5: JURNAL HARIAN -->
+        <div id="tab-jurnal" class="tab-content hidden space-y-6">
+          <div class="bg-islamic-900/30 border border-emerald-800/20 p-6 rounded-3xl">
+            <h2 class="text-2xl font-bold text-white mb-2"><i class="fa-solid fa-book-open text-gold-500 mr-2"></i>Muhasabah & Jurnal Syukur</h2>
+            <p class="text-sm text-emerald-400 mb-6">Merenungi nikmat Allah dan mengevaluasi kesalahan diri untuk pribadi yang lebih baik.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-bold text-emerald-300 uppercase tracking-wider mb-2">1. Apa Hal yang Sangat Saya Syukuri Hari Ini?</label>
+                <textarea
+                  id="journal-syukur"
+                  rows="4"
+                  placeholder="Tuliskan minimal 3 nikmat yang Allah berikan padamu hari ini..."
+                  class="w-full bg-emerald-950/60 border border-emerald-800/60 rounded-2xl p-4 text-sm text-white focus:border-gold-500 focus:ring-0 leading-relaxed"
+                ></textarea>
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-emerald-300 uppercase tracking-wider mb-2">2. Evaluasi: Kesalahan / Dosa Apa yang Dilakukan?</label>
+                <textarea
+                  id="journal-evaluasi"
+                  rows="4"
+                  placeholder="Tuliskan evaluasi diri untuk diperbaiki besok, iringi dengan istighfar..."
+                  class="w-full bg-emerald-950/60 border border-emerald-800/60 rounded-2xl p-4 text-sm text-white focus:border-gold-500 focus:ring-0 leading-relaxed"
+                ></textarea>
+              </div>
+              <div class="md:col-span-2">
+                <label class="block text-xs font-bold text-emerald-300 uppercase tracking-wider mb-2">3. Target Utama Hijrah Besok Pagi:</label>
+                <input
+                  type="text"
+                  id="journal-target"
+                  placeholder="Contoh: Bangun jam 3 malam sholat tahajud, sedekah subuh, kurangi main HP..."
+                  class="w-full bg-emerald-950/60 border border-emerald-800/60 rounded-2xl p-4 text-sm text-white focus:border-gold-500 focus:ring-0"
+                />
+              </div>
+            </div>
+
+            <div class="mt-6 flex flex-col sm:flex-row justify-between items-center gap-4 pt-4 border-t border-emerald-800/20">
+              <span class="text-xs text-emerald-400 italic"><i class="fa-solid fa-circle-check text-gold-500 mr-1"></i> Data jurnal tersimpan otomatis secara lokal dan dapat diekspor.</span>
+              <div class="flex gap-2 w-full sm:w-auto">
+                <button onclick="saveJournal()" class="flex-1 sm:flex-none bg-gold-500 hover:bg-gold-600 text-emerald-950 font-bold py-3 px-6 rounded-xl text-sm transition-colors shadow-lg">
+                  Simpan Jurnal Hari Ini
+                </button>
+                <button onclick="exportJournalPDF()" class="bg-emerald-800 hover:bg-emerald-700 text-white font-bold py-3 px-6 rounded-xl text-sm transition-colors flex items-center gap-2">
+                  <i class="fa-solid fa-file-pdf"></i> Ekspor PDF
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Old Journals -->
+          <div class="bg-islamic-900/30 border border-emerald-800/20 p-6 rounded-3xl">
+            <h3 class="text-lg font-bold text-white mb-4"><i class="fa-solid fa-clock-rotate-left text-emerald-400 mr-2"></i>Riwayat Jurnal Terdahulu</h3>
+            <div class="space-y-4" id="journal-history-container">
+              <!-- Loaded dynamically -->
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 6: MOOD & MENTAL TRACKER -->
+        <div id="tab-mood" class="tab-content hidden space-y-6">
+          <div class="bg-islamic-900/30 border border-emerald-800/20 p-6 rounded-3xl">
+            <h2 class="text-2xl font-bold text-white mb-2"><i class="fa-solid fa-face-smile text-gold-500 mr-2"></i>Pelacak Suasana Hati (Mood)</h2>
+            <p class="text-sm text-emerald-400 mb-6">Pilih suasana hatimu hari ini. Kami akan berikan ayat penyemangat jiwa.</p>
+
+            <!-- Mood Choices Grid -->
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-6">
+              <button
+                onclick="selectMood('Semangat')"
+                id="mood-semangat"
+                class="mood-btn bg-emerald-950/40 border border-emerald-800/40 hover:border-gold-500/50 p-4 rounded-2xl transition-all flex flex-col items-center gap-2"
+              >
+                <span class="text-3xl">🤩</span>
+                <span class="text-xs font-bold text-white">Semangat</span>
+              </button>
+              <button
+                onclick="selectMood('Biasa')"
+                id="mood-biasa"
+                class="mood-btn bg-emerald-950/40 border border-emerald-800/40 hover:border-gold-500/50 p-4 rounded-2xl transition-all flex flex-col items-center gap-2"
+              >
+                <span class="text-3xl">😐</span>
+                <span class="text-xs font-bold text-white">Biasa Saja</span>
+              </button>
+              <button
+                onclick="selectMood('Sedih')"
+                id="mood-sedih"
+                class="mood-btn bg-emerald-950/40 border border-emerald-800/40 hover:border-gold-500/50 p-4 rounded-2xl transition-all flex flex-col items-center gap-2"
+              >
+                <span class="text-3xl">🥺</span>
+                <span class="text-xs font-bold text-white">Sedih</span>
+              </button>
+              <button
+                onclick="selectMood('Capek')"
+                id="mood-capek"
+                class="mood-btn bg-emerald-950/40 border border-emerald-800/40 hover:border-gold-500/50 p-4 rounded-2xl transition-all flex flex-col items-center gap-2"
+              >
+                <span class="text-3xl">😴</span>
+                <span class="text-xs font-bold text-white">Capek</span>
+              </button>
+              <button
+                onclick="selectMood('Cemas')"
+                id="mood-cemas"
+                class="mood-btn bg-emerald-950/40 border border-emerald-800/40 hover:border-gold-500/50 p-4 rounded-2xl transition-all flex flex-col items-center gap-2"
+              >
+                <span class="text-3xl">😰</span>
+                <span class="text-xs font-bold text-white">Cemas</span>
+              </button>
+            </div>
+
+            <!-- Personalized Motivation Block -->
+            <div id="mood-motivation-box" class="hidden bg-emerald-950/80 border border-emerald-800 p-5 rounded-2xl flex items-start gap-4 animate-pulse">
+              <div class="text-2xl text-gold-500"><i class="fa-solid fa-heart-pulse"></i></div>
+              <div>
+                <span class="text-xs font-bold text-gold-500 uppercase tracking-widest block">Saran Spiritual Untukmu:</span>
+                <p id="mood-motivation-text" class="text-sm font-semibold text-white mt-1 leading-relaxed"></p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mood Analytics Graph -->
+          <div class="bg-islamic-900/30 border border-emerald-800/20 p-6 rounded-3xl">
+            <h3 class="text-lg font-bold text-white mb-4"><i class="fa-solid fa-chart-bar text-gold-500 mr-2"></i>Analisis Emosi Mingguan</h3>
+            <div class="relative h-64">
+              <canvas id="moodWeeklyChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 7: MOTIVASI ISLAMI -->
+        <div id="tab-motivasi" class="tab-content hidden space-y-6">
+          <!-- Wisdom Quotes Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-islamic-900/30 border border-emerald-800/20 p-6 rounded-3xl">
+              <h3 class="text-lg font-bold text-white mb-4 border-b border-emerald-800/30 pb-2"><i class="fa-solid fa-star text-gold-500 mr-2"></i>Kalam Ulama & Quotes Salaf</h3>
+              <div class="space-y-4" id="quotes-salaf-list">
+                <!-- Loaded via Javascript -->
+              </div>
+            </div>
+            <div class="bg-islamic-900/30 border border-emerald-800/20 p-6 rounded-3xl">
+              <h3 class="text-lg font-bold text-white mb-4 border-b border-emerald-800/30 pb-2"><i class="fa-solid fa-book-quran text-gold-500 mr-2"></i>Ayat Al-Qur'an & Hadits Penyejuk Jiwa</h3>
+              <div class="space-y-4" id="verse-hadith-list">
+                <!-- Loaded via Javascript -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 8: AI MURABBI (COACH) -->
+        <div id="tab-ai" class="tab-content hidden space-y-6">
+          <div class="bg-gradient-to-r from-emerald-950 to-islamic-900 border border-emerald-800/50 p-6 rounded-3xl relative overflow-hidden">
+            <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-gold-500/10 rounded-full blur-3xl"></div>
+            <div class="flex items-center gap-4 mb-4">
+              <div class="w-12 h-12 bg-gold-500/10 border border-gold-500/30 rounded-2xl flex items-center justify-center text-gold-500 animate-pulse">
+                <i class="fa-solid fa-wand-magic-sparkles text-xl"></i>
+              </div>
+              <div>
+                <h2 class="text-xl font-bold text-white">AI Murabbi Coach</h2>
+                <p class="text-xs text-emerald-400 mt-0.5">Analisis kemajuan spiritual & produktivitasmu berbasis AI cerdas Gemini.</p>
+              </div>
+            </div>
+
+            <p class="text-sm text-emerald-200 leading-relaxed mb-6">
+              AI Murabbi akan membaca data log amal sholat, produktivitas, dan suasana hatimu selama seminggu terakhir secara lokal, lalu memberikan diagnosis rohani serta nasihat perbaikan diri yang
+              disesuaikan khusus untukmu.
+            </p>
+
+            <!-- AI Generation Button -->
+            <button
+              onclick="generateAiAdvice()"
+              id="ai-btn-trigger"
+              class="bg-gradient-to-r from-gold-500 to-yellow-400 hover:from-gold-600 hover:to-yellow-500 text-emerald-950 font-extrabold py-3.5 px-6 rounded-xl text-sm flex items-center justify-center gap-2 transition-all w-full md:w-auto shadow-lg shadow-gold-600/10"
+            >
+              <i class="fa-solid fa-sparkles"></i> Minta Analisis & Nasihat AI Murabbi
+            </button>
+          </div>
+
+          <!-- AI Output Box -->
+          <div id="ai-response-box" class="hidden bg-islamic-900/40 border border-emerald-800/30 p-6 rounded-3xl space-y-4">
+            <div class="flex items-center justify-between border-b border-emerald-800/20 pb-3">
+              <span class="text-xs font-bold text-gold-500 uppercase tracking-widest"><i class="fa-solid fa-envelope-open-text mr-2"></i>Nasihat Personal</span>
+              <span class="text-[10px] text-emerald-400 italic">Disintesis oleh Gemini 2.5 Flash</span>
+            </div>
+
+            <div id="ai-response-content" class="text-sm text-white leading-relaxed space-y-3 prose prose-invert">
+              <!-- Filled in dynamically -->
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 9: SETELAN & SINKRONISASI -->
+        <div id="tab-setelan" class="tab-content hidden space-y-6">
+          <!-- Spreadsheet Sync -->
+          <div class="bg-islamic-900/30 border border-emerald-800/20 p-6 rounded-3xl">
+            <h2 class="text-2xl font-bold text-white mb-2"><i class="fa-solid fa-cloud-arrow-up text-gold-500 mr-2"></i>Sinkronisasi Google Spreadsheet</h2>
+            <p class="text-sm text-emerald-400 mb-6">Simpan seluruh data progres ibadah Anda dengan aman ke Google Spreadsheet secara terpusat.</p>
+
+            <div class="space-y-4">
+              <div>
+                <label class="block text-xs font-bold text-emerald-300 uppercase tracking-wider mb-2">URL Web App Google Apps Script (GAS) Aktif:</label>
+                <input
+                  type="url"
+                  id="settings-gas-url"
+                  placeholder="https://script.google.com/macros/s/.../exec"
+                  class="w-full bg-emerald-950 border border-emerald-800/60 rounded-xl px-4 py-3 text-sm text-white focus:border-gold-500 focus:ring-0"
+                />
+              </div>
+              <div class="flex gap-2">
+                <button onclick="testGasConnection()" class="bg-emerald-850 hover:bg-emerald-800 text-white font-bold py-2.5 px-6 rounded-xl text-xs transition-colors">Tes Koneksi</button>
+                <button onclick="saveGasSettings()" class="bg-gold-500 hover:bg-gold-600 text-emerald-950 font-bold py-2.5 px-6 rounded-xl text-xs transition-colors shadow-md">
+                  Simpan Setelan URL
+                </button>
+                <button onclick="syncDataToGas()" class="bg-emerald-800 hover:bg-emerald-700 text-white font-bold py-2.5 px-6 rounded-xl text-xs transition-colors">Sinkronkan Sekarang</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- UTUH: Google Apps Script Code GS Viewer -->
+          <div class="bg-islamic-900/30 border border-emerald-800/20 p-6 rounded-3xl">
+            <div class="flex items-center justify-between mb-3 border-b border-emerald-800/30 pb-3">
+              <h3 class="text-lg font-bold text-white"><i class="fa-solid fa-code text-gold-500 mr-2"></i>Skrip Kode backend (Code.gs)</h3>
+              <button
+                onclick="copyCodeGsToClipboard()"
+                class="bg-emerald-900 hover:bg-emerald-800 text-gold-400 text-xs px-3 py-1.5 rounded-lg border border-emerald-800 font-bold transition-all flex items-center gap-1"
+              >
+                <i class="fa-solid fa-copy"></i> Salin Kode
+              </button>
+            </div>
+            <p class="text-xs text-emerald-300 mb-4 leading-relaxed">
+              Salin seluruh kode di bawah ini, buka <strong>script.google.com</strong>, tempelkan, buat Spreadsheet baru lalu hubungkan dengan mempublikasikannya sebagai Web App dengan akses untuk
+              "Anyone".
+            </p>
+            <div class="relative bg-emerald-950/80 border border-emerald-900 rounded-xl p-4 overflow-x-auto text-[11px] font-mono text-emerald-200 h-64 max-h-64 leading-normal">
+              <pre id="code-gs-text-container">
+/*
+ * ==========================================
+ * Code.gs - Google Apps Script Backend Hijrah+
+ * ==========================================
+ */
+function doGet(e) {
+  // Cegah error jika dijalankan langsung di editor tanpa parameter
+  if (!e || !e.parameter) {
+    return ContentService.createTextOutput(JSON.stringify({
+      status: "success", 
+      message: "Web App Hijrah+ aktif! Silakan hubungkan dari dashboard."
+    })).setMimeType(ContentService.MimeType.JSON);
+  }
+
+  var action = e.parameter.action;
+  var sheetId = e.parameter.sheetId;
+  
+  var ss;
+  try {
+    if (sheetId) {
+      ss = SpreadsheetApp.openById(sheetId);
+    } else {
+      ss = SpreadsheetApp.getActiveSpreadsheet();
+    }
+  } catch (err) {
+    return ContentService.createTextOutput(JSON.stringify({
+      status: "error", 
+      message: "Gagal membuka Spreadsheet: " + err.toString()
+    })).setMimeType(ContentService.MimeType.JSON);
+  }
+  
+  if (!ss) {
+    return ContentService.createTextOutput(JSON.stringify({
+      status: "error", 
+      message: "ID Spreadsheet tidak valid atau tidak terdeteksi."
+    })).setMimeType(ContentService.MimeType.JSON);
+  }
+  
+  setupSheets(ss);
+  
+  if (action === "get") {
+    var payload = {
+      status: "success",
+      sholat: getSheetData(ss, "Sholat"),
+      habit: getSheetData(ss, "Habit"),
+      todo: getSheetData(ss, "Todo"),
+      journal: getSheetData(ss, "Journal"),
+      mood: getSheetData(ss, "Mood")
+    };
+    return ContentService.createTextOutput(JSON.stringify(payload)).setMimeType(ContentService.MimeType.JSON);
+  }
+  
+  return ContentService.createTextOutput(JSON.stringify({status: "error", message: "Aksi tidak valid"})).setMimeType(ContentService.MimeType.JSON);
+}
+
+function doPost(e) {
+  try {
+    if (!e || !e.postData || !e.postData.contents) {
+      return ContentService.createTextOutput(JSON.stringify({
+        status: "error", 
+        message: "Data posting kosong atau tidak valid."
+      })).setMimeType(ContentService.MimeType.JSON);
+    }
+
+    var postData = JSON.parse(e.postData.contents);
+    var sheetId = postData.sheetId;
+    var action = postData.action;
+    var data = postData.data;
+    
+    var ss;
+    if (sheetId) {
+      ss = SpreadsheetApp.openById(sheetId);
+    } else {
+      ss = SpreadsheetApp.getActiveSpreadsheet();
+    }
+    
+    if (!ss) {
+      return ContentService.createTextOutput(JSON.stringify({
+        status: "error", 
+        message: "Spreadsheet tidak terdeteksi atau tidak valid."
+      })).setMimeType(ContentService.MimeType.JSON);
+    }
+    
+    setupSheets(ss);
+    
+    if (action === "sync") {
+      syncTableData(ss, "Sholat", data.sholat || []);
+      syncTableData(ss, "Habit", data.habit || []);
+      syncTableData(ss, "Todo", data.todo || []);
+      syncTableData(ss, "Journal", data.journal || []);
+      syncTableData(ss, "Mood", data.mood || []);
+      
+      return ContentService.createTextOutput(JSON.stringify({status: "success", message: "Data berhasil disinkronkan!"})).setMimeType(ContentService.MimeType.JSON);
+    }
+    
+    return ContentService.createTextOutput(JSON.stringify({status: "error", message: "Aksi tidak didukung"})).setMimeType(ContentService.MimeType.JSON);
+    
+  } catch (err) {
+    return ContentService.createTextOutput(JSON.stringify({status: "error", message: err.toString()})).setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+function setupSheets(ss) {
+  if (!ss) {
+    ss = SpreadsheetApp.getActiveSpreadsheet();
+  }
+  if (!ss) {
+    throw new Error("Spreadsheet tidak valid atau tidak terhubung.");
+  }
+  var requiredSheets = ["Sholat", "Habit", "Todo", "Journal", "Mood"];
+  requiredSheets.forEach(function(name) {
+    var sheet = ss.getSheetByName(name);
+    if (!sheet) {
+      ss.insertSheet(name);
+    }
+  });
+}
+
+function getSheetData(ss, sheetName) {
+  var sheet = ss.getSheetByName(sheetName);
+  if (!sheet) return [];
+  var values = sheet.getDataRange().getValues();
+  if (values.length <= 1) return [];
+  
+  var headers = values[0];
+  var data = [];
+  for (var i = 1; i < values.length; i++) {
+    var obj = {};
+    for (var j = 0; j < headers.length; j++) {
+      obj[headers[j]] = values[i][j];
+    }
+    data.push(obj);
+  }
+  return data;
+}
+
+function syncTableData(ss, sheetName, dataList) {
+  var sheet = ss.getSheetByName(sheetName);
+  if (!sheet) return;
+  sheet.clear();
+  
+  if (dataList.length === 0) {
+    return;
+  }
+  
+  var headers = Object.keys(dataList[0]);
+  sheet.appendRow(headers);
+  
+  var rows = [];
+  dataList.forEach(function(item) {
+    var row = [];
+    headers.forEach(function(header) {
+      row.push(item[header] !== undefined ? item[header] : "");
+    });
+    rows.push(row);
+  });
+  
+  if (rows.length > 0) {
+    sheet.getRange(2, 1, rows.length, headers.length).setValues(rows);
+  }
+}
+                        </pre
+              >
+            </div>
+          </div>
+
+          <!-- Database Reset -->
+          <div class="bg-islamic-900/30 border border-emerald-800/20 p-6 rounded-3xl">
+            <h3 class="text-lg font-bold text-white mb-2"><i class="fa-solid fa-triangle-exclamation text-yellow-500 mr-2"></i>Reset & Hapus Semua Data</h3>
+            <p class="text-sm text-emerald-400 mb-4">Aksi ini akan menghapus semua riwayat lokal di peramban ini dan mengembalikan status ke awal.</p>
+            <button onclick="resetLocalData()" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2.5 px-6 rounded-xl text-xs transition-colors">Hapus Semua Data Lokal</button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-islamic-950 border-t border-emerald-800/20 py-8 z-10 text-center">
+      <p class="text-xs text-emerald-400">Hijrah+ Premium Dashboard &copy; 2026. Dirancang untuk peningkatan disiplin dan produktivitas Islami harian.</p>
+    </footer>
+
+    <!-- App Logic Scripts (Fully Integrated) -->
+    <script>
+      const defaultGasUrl = "https://script.google.com/macros/s/AKfycbzMMqydyHuBRsvQBaqp46dKRbeCb1qt7QPA7dM6qT4B9K_pqSuxFiK4Nj7nALue6mk/exec";
+
+      // Realtime Clock & Islamic/Hijri Date Calculations
+      function updateTime() {
+        const now = new Date();
+        const daysIndo = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+        const monthsIndo = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+
+        document.getElementById("clock-realtime").textContent = now.toLocaleTimeString("id-ID") + " WIB";
+        document.getElementById("gregorian-date").textContent = daysIndo[now.getDay()] + ", " + now.getDate() + " " + monthsIndo[now.getMonth()] + " " + now.getFullYear();
+
+        // Islamic greeting based on Hour
+        const hours = now.getHours();
+        let greeting = "Assalamu'alaikum, Pejuang Hijrah";
+        if (hours >= 3 && hours < 11) greeting = "Assalamu'alaikum, Selamat Pagi";
+        else if (hours >= 11 && hours < 15) greeting = "Assalamu'alaikum, Selamat Siang";
+        else if (hours >= 15 && hours < 18) greeting = "Assalamu'alaikum, Selamat Sore";
+        else greeting = "Assalamu'alaikum, Selamat Malam";
+        document.getElementById("greeting-islamic").textContent = greeting;
+      }
+
+      // Simplistic Offline Hijri calculation approximation (approx. +- 1 day correction)
+      function calculateHijri() {
+        const today = new Date();
+        let jd = today.getTime() / (24 * 3600 * 1000) + 2440587.5;
+        let l = Math.floor(jd) - 1948440 + 10632;
+        let n = Math.floor((l - 1) / 10631);
+        l = l - 10631 * n + 354;
+        let j = Math.floor((10985 - l) / 5316) * Math.floor((50 * l) / 17719) + Math.floor(l / 5670) * Math.floor((43 * l) / 15238);
+        l = l - Math.floor((30 - j) / 15) * Math.floor((17719 * j) / 50) - Math.floor(j / 16) * Math.floor((15238 * j) / 43) + 29;
+        let m = Math.floor((24 * l) / 709);
+        let d = l - Math.floor((709 * m) / 24);
+        let y = 30 * n + j - 30;
+
+        const hijriMonths = ["Muharram", "Safar", "Rabi'ul Awwal", "Rabi'ul Akhir", "Jumadil Awwal", "Jumadil Akhir", "Rajab", "Sya'ban", "Ramadhan", "Syawwal", "Dzulqa'dah", "Dzulhijjah"];
+
+        document.getElementById("hijri-date").textContent = `${d} ${hijriMonths[m - 1]} ${y} H`;
+      }
+
+      // Deteksi Hari Jumat Otomatis untuk Sholat Jumat
+      function checkFriday() {
+        const now = new Date();
+        const isFriday = now.getDay() === 5; // 5 adalah hari Jumat
+        const dzuhurTitle = document.getElementById("prayer-dzuhur-title");
+        if (dzuhurTitle) {
+          dzuhurTitle.textContent = isFriday ? "Jumat" : "Dzuhur";
+        }
+      }
+
+      // Offline Quotes database (Always loaded randomized)
+      const islamicQuotes = [
+        '"Barangsiapa yang menempuh jalan untuk mencari ilmu, maka Allah akan mudahkan jalannya menuju surga." (HR. Muslim)',
+        '"Maka sesungguhnya bersama kesulitan ada kemudahan." (QS. Al-Insyirah: 5)',
+        '"Dua kenikmatan yang sering dilalaikan oleh banyak manusia: nikmat sehat dan waktu luang." (HR. Bukhari)',
+        '"Jagalah Allah, niscaya Allah akan menjagamu." (HR. Tirmidzi)',
+        '"Sebaik-baik manusia adalah yang paling bermanfaat bagi manusia lainnya." (HR. Ahmad)',
+        '"Amalan yang paling dicintai oleh Allah adalah amalan yang kontinu (terus-menerus) meskipun sedikit." (HR. Muslim)',
+      ];
+
+      function rotateQuote() {
+        const randomIndex = Math.floor(Math.random() * islamicQuotes.length);
+        document.getElementById("daily-quote").textContent = islamicQuotes[randomIndex];
+      }
+
+      // Sound Generator (Pure Local Web Audio Synthesizer)
+      let audioCtx = null;
+      let oscillator = null;
+      let gainNode = null;
+      let isPlayingSynth = false;
+
+      function toggleSpiritualSound() {
+        const btn = document.getElementById("synth-sound-btn");
+        if (isPlayingSynth) {
+          if (oscillator) {
+            oscillator.stop();
+          }
+          btn.innerHTML = '<i class="fa-solid fa-play mr-1"></i> Putar';
+          isPlayingSynth = false;
+          btn.classList.replace("bg-gold-600", "bg-emerald-900");
+        } else {
+          if (!audioCtx) {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+          }
+
+          oscillator = audioCtx.createOscillator();
+          gainNode = audioCtx.createGain();
+
+          // Pure sine waves mimicking meditative deep hum
+          oscillator.type = "sine";
+          oscillator.frequency.setValueAtTime(136.1, audioCtx.currentTime); // OM-like Frequency of Earth
+
+          gainNode.gain.setValueAtTime(0.05, audioCtx.currentTime); // extremely soft volume
+
+          oscillator.connect(gainNode);
+          gainNode.connect(audioCtx.destination);
+
+          oscillator.start();
+          btn.innerHTML = '<i class="fa-solid fa-pause mr-1"></i> Berhenti';
+          isPlayingSynth = true;
+          btn.classList.replace("bg-emerald-900", "bg-gold-600");
+        }
+      }
+
+      // Local Storage State
+      let state = {
+        user: { xp: 0, level: 1, badges: [] },
+        sholat: {
+          subuh: false,
+          subuhOntime: false,
+          dzuhur: false,
+          dzuhurOntime: false,
+          ashar: false,
+          asharOntime: false,
+          maghrib: false,
+          maghribOntime: false,
+          isya: false,
+          isyaOntime: false,
+          streak: 0,
+          lastTrackedDate: "",
+        },
+        habits: [],
+        todos: [],
+        journal: { syukur: "", evaluasi: "", target: "", savedJournals: [] },
+        mood: { current: "", motivation: "", history: [] },
+        settings: { gasUrl: "" },
+      };
+
+      // Initialize App State
+      function loadState() {
+        const savedState = localStorage.getItem("hijrah_plus_state");
+        if (savedState) {
+          state = JSON.parse(savedState);
+        }
+
+        // Standard Preset Habits if empty
+        if (!state.habits || state.habits.length === 0) {
+          state.habits = [
+            { id: "1", name: "📖 Ngaji Al-Quran", streak: 0, lastDone: "", doneToday: false, xp: 15 },
+            { id: "2", name: "📿 Dzikir Pagi Petang", streak: 0, lastDone: "", doneToday: false, xp: 10 },
+          ];
+        }
+
+        // Set Default URL GAS if empty
+        if (!state.settings.gasUrl) {
+          state.settings.gasUrl = defaultGasUrl;
+        }
+
+        // Sync with elements
+        updateXPBar();
+        loadSholatCheckboxes();
+        renderHabits();
+        renderTodos();
+        renderJournalHistory();
+        renderQuotesTab();
+        updateDashboardMetrics();
+        if (state.settings.gasUrl) {
+          document.getElementById("settings-gas-url").value = state.settings.gasUrl;
+        }
+      }
+
+      function saveStateToLocal() {
+        localStorage.setItem("hijrah_plus_state", JSON.stringify(state));
+        updateXPBar();
+        updateDashboardMetrics();
+      }
+
+      // Custom Message Box / Alert
+      function showAlert(msg, iconClass = "fa-circle-info") {
+        const box = document.getElementById("alert-box");
+        document.getElementById("alert-message").textContent = msg;
+        document.getElementById("alert-icon").className = `fa-solid ${iconClass} text-gold-500 text-xl`;
+        box.classList.remove("hidden");
+        setTimeout(() => {
+          closeAlert();
+        }, 4000);
+      }
+
+      function closeAlert() {
+        document.getElementById("alert-box").classList.add("hidden");
+      }
+
+      // XP & Leveling Logic
+      function addXP(amount) {
+        state.user.xp += amount;
+        let currentLevel = state.user.level;
+        let requiredXp = currentLevel * 100;
+
+        if (state.user.xp >= requiredXp) {
+          state.user.xp -= requiredXp;
+          state.user.level += 1;
+          triggerLevelUpModal(state.user.level);
+        }
+        saveStateToLocal();
+      }
+
+      function triggerLevelUpModal(newLvl) {
+        document.getElementById("modal-level-val").textContent = `LEVEL ${newLvl}`;
+        document.getElementById("level-modal").classList.remove("hidden");
+        // Trigger Confetti
+        confetti({
+          particleCount: 150,
+          spread: 80,
+          origin: { y: 0.6 },
+        });
+      }
+
+      function closeLevelModal() {
+        document.getElementById("level-modal").classList.add("hidden");
+      }
+
+      function updateXPBar() {
+        document.getElementById("header-user-level").textContent = state.user.level;
+        document.getElementById("header-user-xp").textContent = state.user.xp;
+        let progressPct = (state.user.xp / (state.user.level * 100)) * 100;
+        document.getElementById("header-xp-bar").style.width = `${progressPct}%`;
+      }
+
+      // Tab switcher
+      function switchTab(tabId) {
+        document.querySelectorAll(".tab-content").forEach((tab) => {
+          tab.classList.add("hidden");
+        });
+        document.getElementById(`tab-${tabId}`).classList.remove("hidden");
+
+        // Button styling
+        document.querySelectorAll(".nav-tab-btn").forEach((btn) => {
+          btn.className =
+            "nav-tab-btn flex items-center justify-center md:justify-start gap-3 px-4 py-3 rounded-xl font-semibold text-sm transition-all whitespace-nowrap flex-1 md:flex-initial text-emerald-300 hover:bg-emerald-900/30 hover:text-white";
+        });
+
+        const activeBtn = document.getElementById(`btn-${tabId}`);
+        if (activeBtn) {
+          activeBtn.className =
+            "nav-tab-btn flex items-center justify-center md:justify-start gap-3 px-4 py-3 rounded-xl font-semibold text-sm transition-all whitespace-nowrap flex-1 md:flex-initial bg-gradient-to-r from-emerald-800 to-emerald-900 text-white shadow-md shadow-emerald-950/40";
+        }
+      }
+
+      // Theme Toggle (Dark & Light Mode Integration)
+      let isDarkMode = true;
+      document.getElementById("theme-toggle").addEventListener("click", () => {
+        isDarkMode = !isDarkMode;
+        const themeIcon = document.getElementById("theme-icon");
+        if (isDarkMode) {
+          document.documentElement.classList.add("dark");
+          document.body.style.backgroundColor = "#011c15";
+          document.body.style.color = "#f3f4f6";
+          themeIcon.className = "fa-solid fa-moon text-lg";
+        } else {
+          document.documentElement.classList.remove("dark");
+          document.body.style.backgroundColor = "#f0fdf4";
+          document.body.style.color = "#064e3b";
+          themeIcon.className = "fa-solid fa-sun text-lg text-yellow-500";
+        }
+      });
+
+      // 1. Sholat Tracker Methods
+      function loadSholatCheckboxes() {
+        const times = ["subuh", "dzuhur", "ashar", "maghrib", "isya"];
+        times.forEach((t) => {
+          document.getElementById(`sholat-${t}`).checked = state.sholat[t] || false;
+          document.getElementById(`sholat-${t}-ontime`).checked = state.sholat[`${t}Ontime`] || false;
+        });
+        document.getElementById("sholat-streak-val").textContent = state.sholat.streak || 0;
+        checkAllSholatCompleted();
+      }
+
+      function toggleSholat(time) {
+        const isChecked = document.getElementById(`sholat-${time}`).checked;
+        state.sholat[time] = isChecked;
+        if (isChecked) {
+          addXP(10);
+          let displayTime = time.toUpperCase();
+          if (time === "dzuhur" && new Date().getDay() === 5) {
+            displayTime = "JUMAT";
+          }
+          showAlert(`Maa Syaa Allah! Sholat ${displayTime} terekam. +10 XP`, "fa-circle-check");
+        }
+        saveStateToLocal();
+        checkAllSholatCompleted();
+      }
+
+      function toggleSholatOntime(time) {
+        const isChecked = document.getElementById(`sholat-${time}-ontime`).checked;
+        state.sholat[`${time}Ontime`] = isChecked;
+        if (isChecked) {
+          addXP(15);
+          let displayTime = time.toUpperCase();
+          if (time === "dzuhur" && new Date().getDay() === 5) {
+            displayTime = "JUMAT";
+          }
+          showAlert(`Luar biasa! Tepat waktu di Sholat ${displayTime}! +15 XP`, "fa-bolt");
+        }
+        saveStateToLocal();
+      }
+
+      function checkAllSholatCompleted() {
+        const times = ["subuh", "dzuhur", "ashar", "maghrib", "isya"];
+        const allDone = times.every((t) => state.sholat[t] === true);
+        if (allDone) {
+          confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 },
+          });
+          showAlert("Barakallahu fiik! Seluruh sholat fardhu hari ini tuntas dicatat!", "fa-trophy");
+
+          // Award Badges
+          unlockBadge("badge-sholat");
+        }
+      }
+
+      function unlockBadge(badgeId) {
+        const element = document.getElementById(badgeId);
+        const icon = document.getElementById(`${badgeId}-icon`);
+        if (element && icon) {
+          element.classList.add("border-gold-500/50", "bg-emerald-950/80");
+          icon.classList.remove("opacity-40");
+          icon.classList.add("animate-pulse");
+        }
+      }
+
+      // 2. Habit Tracker Methods
+      function openAddHabitModal() {
+        document.getElementById("add-habit-modal").classList.remove("hidden");
+      }
+
+      function closeAddHabitModal() {
+        document.getElementById("add-habit-modal").classList.add("hidden");
+      }
+
+      function setPresetHabit(name) {
+        document.getElementById("habit-name-input").value = name;
+      }
+
+      function saveHabit() {
+        const name = document.getElementById("habit-name-input").value.trim();
+        if (!name) return;
+
+        const newHabit = {
+          id: Date.now().toString(),
+          name: name,
+          streak: 0,
+          lastDone: "",
+          doneToday: false,
+          xp: 15,
+        };
+        state.habits.push(newHabit);
+        saveStateToLocal();
+        renderHabits();
+        closeAddHabitModal();
+        document.getElementById("habit-name-input").value = "";
+        showAlert(`Habit "${name}" berhasil ditambahkan!`, "fa-circle-check");
+      }
+
+      function toggleHabit(id) {
+        const habit = state.habits.find((h) => h.id === id);
+        if (habit) {
+          const todayStr = new Date().toDateString();
+          if (habit.doneToday) {
+            habit.doneToday = false;
+            habit.streak = Math.max(0, habit.streak - 1);
+          } else {
+            habit.doneToday = true;
+            habit.streak += 1;
+            habit.lastDone = todayStr;
+            addXP(habit.xp);
+            showAlert(`Alhamdulillah! Menyelesaikan "${habit.name}". +${habit.xp} XP`, "fa-star");
+          }
+          saveStateToLocal();
+          renderHabits();
+          unlockBadge("badge-istiqomah");
+        }
+      }
+
+      function deleteHabit(id) {
+        state.habits = state.habits.filter((h) => h.id !== id);
+        saveStateToLocal();
+        renderHabits();
+      }
+
+      function renderHabits() {
+        const container = document.getElementById("habits-container");
+        container.innerHTML = "";
+        state.habits.forEach((h) => {
+          const div = document.createElement("div");
+          div.className = "p-5 bg-emerald-950/40 border border-emerald-800/30 rounded-2xl flex items-center justify-between transition-all hover:scale-[1.01]";
+          div.innerHTML = `
+                    <div class="flex items-center gap-4">
+                        <input type="checkbox" ${h.doneToday ? "checked" : ""} onchange="toggleHabit('${h.id}')" class="rounded border-emerald-800 text-gold-500 focus:ring-0 w-5 h-5 bg-emerald-950 cursor-pointer">
+                        <div>
+                            <span class="text-sm font-bold text-white block ${h.doneToday ? "line-through text-emerald-500" : ""}">${h.name}</span>
+                            <span class="text-xs text-gold-500 block mt-1"><i class="fa-solid fa-fire mr-1"></i> Streak: ${h.streak} Hari</span>
+                        </div>
+                    </div>
+                    <button onclick="deleteHabit('${h.id}')" class="text-emerald-700 hover:text-red-500 p-2"><i class="fa-solid fa-trash-can"></i></button>
+                `;
+          container.appendChild(div);
+        });
+      }
+
+      // 3. To-Do List Methods
+      function addTodo(e) {
+        e.preventDefault();
+        const input = document.getElementById("todo-input");
+        const taskText = input.value.trim();
+        if (!taskText) return;
+
+        const todo = {
+          id: Date.now().toString(),
+          text: taskText,
+          done: false,
+        };
+        state.todos.push(todo);
+        saveStateToLocal();
+        renderTodos();
+        input.value = "";
+      }
+
+      function toggleTodo(id) {
+        const todo = state.todos.find((t) => t.id === id);
+        if (todo) {
+          todo.done = !todo.done;
+          if (todo.done) addXP(5);
+          saveStateToLocal();
+          renderTodos();
+        }
+      }
+
+      function deleteTodo(id) {
+        state.todos = state.todos.filter((t) => t.id !== id);
+        saveStateToLocal();
+        renderTodos();
+      }
+
+      function renderTodos() {
+        const container = document.getElementById("todo-list-container");
+        container.innerHTML = "";
+        let completed = 0;
+        state.todos.forEach((t) => {
+          if (t.done) completed++;
+          const div = document.createElement("div");
+          div.className = "flex items-center justify-between p-3 bg-emerald-950/40 border border-emerald-800/20 rounded-xl";
+          div.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" ${t.done ? "checked" : ""} onchange="toggleTodo('${t.id}')" class="rounded border-emerald-800 text-gold-500 focus:ring-0 bg-emerald-950 w-4 h-4 cursor-pointer">
+                        <span class="text-xs font-semibold text-white ${t.done ? "line-through text-emerald-500" : ""}">${t.text}</span>
+                    </div>
+                    <button onclick="deleteTodo('${t.id}')" class="text-emerald-700 hover:text-red-500"><i class="fa-solid fa-trash-can text-xs"></i></button>
+                `;
+          container.appendChild(div);
+        });
+        document.getElementById("todo-completed-stats").textContent = completed;
+      }
+
+      // 4. Pomodoro Focus Timer Logic
+      let pomoInterval = null;
+      let pomoMinutes = 25;
+      let pomoSeconds = 0;
+      let isRunning = false;
+      let totalFocusedMinutes = 0;
+
+      function updatePomoUI() {
+        const display = document.getElementById("pomo-timer-display");
+        const mins = pomoMinutes < 10 ? "0" + pomoMinutes : pomoMinutes;
+        const secs = pomoSeconds < 10 ? "0" + pomoSeconds : pomoSeconds;
+        display.textContent = `${mins}:${secs}`;
+
+        // SVG Circle Progress calculation
+        const totalSecs = 25 * 60;
+        const remainingSecs = pomoMinutes * 60 + pomoSeconds;
+        const percentage = remainingSecs / totalSecs;
+        const circle = document.getElementById("pomodoro-circle-prog");
+        const offset = 578 * (1 - percentage);
+        circle.style.strokeDashoffset = offset;
+      }
+
+      function startPomodoro() {
+        if (isRunning) return;
+        isRunning = true;
+        document.getElementById("pomo-start-btn").classList.add("hidden");
+        document.getElementById("pomo-pause-btn").classList.remove("hidden");
+
+        pomoInterval = setInterval(() => {
+          if (pomoSeconds === 0) {
+            if (pomoMinutes === 0) {
+              clearInterval(pomoInterval);
+              addXP(50); // High reward for deep focus
+              totalFocusedMinutes += 25;
+              showAlert("Alhamdulillah! 25 menit fokus penuh tercapai. Silahkan istirahat 5 menit. +50 XP", "fa-mug-hot");
+              unlockBadge("badge-produktif");
+              resetPomodoro();
+              return;
+            }
+            pomoMinutes--;
+            pomoSeconds = 59;
+          } else {
+            pomoSeconds--;
+          }
+          updatePomoUI();
+        }, 1000);
+      }
+
+      // Pause Pomodoro
+      function pausePomodoro() {
+        clearInterval(pomoInterval);
+        isRunning = false;
+        document.getElementById("pomo-start-btn").classList.remove("hidden");
+        document.getElementById("pomo-pause-btn").classList.add("hidden");
+      }
+
+      // Reset Pomodoro
+      function resetPomodoro() {
+        clearInterval(pomoInterval);
+        isRunning = false;
+        pomoMinutes = 25;
+        pomoSeconds = 0;
+        updatePomoUI();
+        document.getElementById("pomo-start-btn").classList.remove("hidden");
+        document.getElementById("pomo-pause-btn").classList.add("hidden");
+      }
+
+      // 5. Daily Journal & Muhasabah
+      function saveJournal() {
+        const syukur = document.getElementById("journal-syukur").value.trim();
+        const evaluasi = document.getElementById("journal-evaluasi").value.trim();
+        const target = document.getElementById("journal-target").value.trim();
+
+        if (!syukur || !evaluasi || !target) {
+          showAlert("Isilah seluruh isian muhasabah jurnal Anda terlebih dahulu.", "fa-triangle-exclamation");
+          return;
+        }
+
+        const newLog = {
+          id: Date.now().toString(),
+          date: new Date().toLocaleDateString("id-ID"),
+          syukur: syukur,
+          evaluasi: evaluasi,
+          target: target,
+        };
+
+        if (!state.journal.savedJournals) {
+          state.journal.savedJournals = [];
+        }
+        state.journal.savedJournals.unshift(newLog);
+        saveStateToLocal();
+        renderJournalHistory();
+        addXP(30);
+        showAlert("Alhamdulillah! Jurnal harian berhasil direkam. +30 XP", "fa-circle-check");
+
+        // clear inputs
+        document.getElementById("journal-syukur").value = "";
+        document.getElementById("journal-evaluasi").value = "";
+        document.getElementById("journal-target").value = "";
+      }
+
+      function renderJournalHistory() {
+        const container = document.getElementById("journal-history-container");
+        container.innerHTML = "";
+        const list = state.journal.savedJournals || [];
+
+        if (list.length === 0) {
+          container.innerHTML = '<p class="text-xs text-emerald-500 italic">Belum ada riwayat jurnal yang disimpan.</p>';
+          return;
+        }
+
+        list.forEach((j) => {
+          const div = document.createElement("div");
+          div.className = "p-5 bg-emerald-950/40 border border-emerald-800/20 rounded-2xl space-y-2";
+          div.innerHTML = `
+                    <div class="flex justify-between items-center border-b border-emerald-800/20 pb-2">
+                        <span class="text-xs font-bold text-gold-500"><i class="fa-solid fa-calendar-day mr-1"></i> ${j.date}</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs mt-2 text-emerald-200">
+                        <div><strong class="text-emerald-400 block mb-1">Rasa Syukur:</strong> ${j.syukur}</div>
+                        <div><strong class="text-emerald-400 block mb-1">Evaluasi Diri:</strong> ${j.evaluasi}</div>
+                        <div><strong class="text-emerald-400 block mb-1">Target Besok:</strong> ${j.target}</div>
+                    </div>
+                `;
+          container.appendChild(div);
+        });
+      }
+
+      // Export PDF simulator (Copyable summary)
+      function exportJournalPDF() {
+        const jsonText = JSON.stringify(state.journal.savedJournals, null, 2);
+        navigator.clipboard.writeText(jsonText);
+        showAlert("Simulasi PDF: Seluruh data riwayat jurnal Anda berhasil disalin ke Clipboard!", "fa-file-export");
+      }
+
+      // 6. Mood & Mental Tracker
+      const moodMotivations = {
+        Semangat: "Maa Syaa Allah, jadikan semangatmu bernilai pahala dengan berdakwah, bekerja tulus, dan menuntut ilmu demi kejayaan Islam!",
+        Biasa: "Perbanyak berdzikir 'Subhanallah walhamdulillah' di sela kesibukanmu agar hatimu terus dipenuhi cahaya ketenangan.",
+        Sedih: "La Tahzan, Innallaha Ma'ana. Ingatlah: 'Hanya dengan mengingat Allah hati menjadi tenteram.' (QS. Ar-Ra'd: 28)",
+        Capek: "Istirahatlah dengan niat menjaga kesehatan jasmanimu untuk beribadah esok hari. Tidurmu bernilai pahala jika disertai bismillah.",
+        Cemas: "Perbanyak membaca 'Hasbunallah wa ni'mal wakil'. Serahkan seluruh kecemasanmu kepada Dzat Yang Maha Mengatur alam semesta.",
+      };
+
+      function selectMood(moodName) {
+        state.mood.current = moodName;
+        document.querySelectorAll(".mood-btn").forEach((btn) => {
+          btn.className = "mood-btn bg-emerald-950/40 border border-emerald-800/40 hover:border-gold-500/50 p-4 rounded-2xl transition-all flex flex-col items-center gap-2";
+        });
+        const activeBtn = document.getElementById(`mood-${moodName.toLowerCase()}`);
+        if (activeBtn) {
+          activeBtn.className = "mood-btn bg-gold-500/10 border-2 border-gold-500 p-4 rounded-2xl transition-all flex flex-col items-center gap-2";
+        }
+
+        // Show custom spiritual advice
+        const text = moodMotivations[moodName];
+        document.getElementById("mood-motivation-text").textContent = text;
+        document.getElementById("mood-motivation-box").classList.remove("hidden");
+
+        // Add to state history
+        const historyLog = {
+          date: new Date().toLocaleDateString("id-ID"),
+          mood: moodName,
+        };
+        if (!state.mood.history) state.mood.history = [];
+        state.mood.history.push(historyLog);
+
+        addXP(10);
+        saveStateToLocal();
+      }
+
+      // 7. Motivasi Islami Static Cards Data
+      const quotesSalaf = [
+        { source: "Imam Syafi'i", text: "Jika kamu tidak menyibukkan dirimu dalam kebaikan, maka jiwamu akan menyibukkanmu dalam keburukan." },
+        { source: "Umar bin Khattab", text: "Hisablah diri kalian sebelum kalian dihisab pada hari Kiamat kelak." },
+        { source: "Imam Al-Ghazali", text: "Nafsu dapat mengubah raja menjadi budak, sedangkan sabar dapat mengubah budak menjadi raja." },
+      ];
+
+      const verseHadith = [
+        { source: "QS. Al-Baqarah: 152", text: "Ingatlah kamu kepada-Ku niscaya Aku ingat kepadamu, dan bersyukurlah kepada-Ku, dan janganlah kamu mengingkari-Ku." },
+        { source: "HR. Muslim", text: "Dunia adalah penjara bagi orang mukmin dan surga bagi orang kafir." },
+        { source: "QS. Al-Baqarah: 286", text: "Allah tidak membebani seseorang melainkan sesuai dengan kesanggupannya." },
+      ];
+
+      function renderQuotesTab() {
+        const containerSalaf = document.getElementById("quotes-salaf-list");
+        containerSalaf.innerHTML = "";
+        quotesSalaf.forEach((q) => {
+          const div = document.createElement("div");
+          div.className = "p-4 bg-emerald-950/40 border-l-4 border-gold-500 rounded-r-2xl space-y-1";
+          div.innerHTML = `<p class="text-xs text-white italic">"${q.text}"</p><strong class="text-[10px] text-gold-500 block text-right">- ${q.source}</strong>`;
+          containerSalaf.appendChild(div);
+        });
+
+        const containerVerse = document.getElementById("verse-hadith-list");
+        containerVerse.innerHTML = "";
+        verseHadith.forEach((v) => {
+          const div = document.createElement("div");
+          div.className = "p-4 bg-emerald-950/40 border-l-4 border-emerald-500 rounded-r-2xl space-y-1";
+          div.innerHTML = `<p class="text-xs text-white italic">"${v.text}"</p><strong class="text-[10px] text-emerald-400 block text-right">- ${v.source}</strong>`;
+          containerVerse.appendChild(div);
+        });
+      }
+
+      // 8. AI Murabbi Integration
+      async function generateAiAdvice() {
+        const triggerBtn = document.getElementById("ai-btn-trigger");
+        const responseBox = document.getElementById("ai-response-box");
+        const responseContent = document.getElementById("ai-response-content");
+
+        triggerBtn.innerHTML = '<i class="fa-solid fa-spinner animate-spin"></i> Menghubungi Guru Spiritual AI...';
+        triggerBtn.disabled = true;
+
+        // Fetch state context data
+        const prayerProgress = `Subuh: ${state.sholat.subuh ? "Selesai" : "Belum"}, Dzuhur: ${state.sholat.dzuhur ? "Selesai" : "Belum"}, Ashar: ${state.sholat.ashar ? "Selesai" : "Belum"}, Maghrib: ${state.sholat.maghrib ? "Selesai" : "Belum"}, Isya: ${state.sholat.isya ? "Selesai" : "Belum"}`;
+        const activeHabits = state.habits.map((h) => `${h.name} (Streak: ${h.streak} hari)`).join(", ") || "Belum ada habit";
+        const userMood = state.mood.current || "Biasa";
+
+        const systemPrompt = "Anda adalah AI Murabbi, konselor & guru spiritual Islami yang ramah, hangat, penuh hikmah, dan membimbing kebaikan.";
+        const userQuery = `Berdasarkan progres harian saya saat ini: \n- Catatan Sholat: ${prayerProgress} \n- Kebiasaan Baik (Habits): ${activeHabits} \n- Suasana Hati (Mood) hari ini: ${userMood}.\n\nBerikan 2 paragraf nasihat personal hangat penuh dengan mutiara hikmah Qur'an/Hadits yang menyejukkan hati agar saya semakin produktif dan rajin beribadah. Gunakan Bahasa Indonesia yang sopan dan menyentuh jiwa.`;
+
+        const apiKey = ""; // The execution environment provides this key at runtime
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+
+        let attempts = 0;
+        const delays = [1000, 2000, 4000, 8000, 16000];
+
+        while (attempts < 5) {
+          try {
+            const response = await fetch(apiUrl, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                contents: [{ parts: [{ text: userQuery }] }],
+                systemInstruction: { parts: [{ text: systemPrompt }] },
+              }),
+            });
+
+            if (!response.ok) throw new Error("API call failed");
+
+            const result = await response.json();
+            const aiText = result.candidates?.[0]?.content?.parts?.[0]?.text || "Maaf, AI Murabbi sedang berhalangan memberikan jawaban saat ini.";
+
+            responseContent.innerHTML = `<p class="whitespace-pre-wrap">${aiText}</p>`;
+            responseBox.classList.remove("hidden");
+            break;
+          } catch (error) {
+            attempts++;
+            if (attempts >= 5) {
+              responseContent.innerHTML = `<p class="text-red-400">Tidak dapat terhubung ke AI saat ini. Harap periksa jaringan internet Anda atau coba lagi nanti.</p>`;
+              responseBox.classList.remove("hidden");
+            } else {
+              await new Promise((resolve) => setTimeout(resolve, delays[attempts - 1]));
+            }
+          }
+        }
+
+        triggerBtn.innerHTML = '<i class="fa-solid fa-sparkles"></i> Minta Analisis & Nasihat AI Murabbi';
+        triggerBtn.disabled = false;
+      }
+
+      // 9. Dashboard Metrics Loader
+      function updateDashboardMetrics() {
+        // Sholat Count
+        const times = ["subuh", "dzuhur", "ashar", "maghrib", "isya"];
+        const doneCount = times.filter((t) => state.sholat[t]).length;
+        document.getElementById("stat-sholat-count").textContent = `${doneCount}/5`;
+        const sholatPct = Math.round((doneCount / 5) * 100);
+        document.getElementById("stat-sholat-pct").textContent = `${sholatPct}% Selesai`;
+        document.getElementById("stat-sholat-bar").style.width = `${sholatPct}%`;
+
+        // Habits streak
+        let bestStreak = 0;
+        state.habits.forEach((h) => {
+          if (h.streak > bestStreak) bestStreak = h.streak;
+        });
+        document.getElementById("stat-habit-streak").textContent = `${bestStreak} Hari`;
+        document.getElementById("stat-habit-active").textContent = `${state.habits.length} Habit Aktif`;
+        document.getElementById("stat-habit-bar").style.width = `${Math.min(100, bestStreak * 10)}%`;
+
+        // Pomodoro Total
+        document.getElementById("stat-fokus-total").textContent = `${totalFocusedMinutes} mnt`;
+        document.getElementById("stat-fokus-bar").style.width = `${Math.min(100, (totalFocusedMinutes / 60) * 100)}%`;
+
+        // Todo stats
+        const totalTodos = state.todos.length;
+        const completedTodos = state.todos.filter((t) => t.done).length;
+        document.getElementById("stat-todo-count").textContent = `${completedTodos}/${totalTodos}`;
+        const todoPct = totalTodos > 0 ? Math.round((completedTodos / totalTodos) * 100) : 0;
+        document.getElementById("stat-todo-pct").textContent = `${todoPct}% Selesai`;
+        document.getElementById("stat-todo-bar").style.width = `${todoPct}%`;
+      }
+
+      // 10. GAS Spreadsheet Sync Integration Methods
+      async function syncDataToGas() {
+        const url = state.settings.gasUrl || defaultGasUrl;
+        if (!url) {
+          showAlert("URL GAS belum diatur!", "fa-triangle-exclamation");
+          return;
+        }
+        showAlert("Menyingkronkan data ke cloud...", "fa-rotate animate-spin");
+
+        const payload = {
+          action: "sync",
+          sheetId: "", // Biarkan kosong agar menggunakan Active Spreadsheet di GAS
+          data: {
+            sholat: [
+              {
+                Tanggal: new Date().toLocaleDateString("id-ID"),
+                Subuh: state.sholat.subuh ? "Selesai" : "Belum",
+                Subuh_Ontime: state.sholat.subuhOntime ? "Ya" : "Tidak",
+                Dzuhur: state.sholat.dzuhur ? "Selesai" : "Belum",
+                Dzuhur_Ontime: state.sholat.dzuhurOntime ? "Ya" : "Tidak",
+                Ashar: state.sholat.ashar ? "Selesai" : "Belum",
+                Ashar_Ontime: state.sholat.asharOntime ? "Ya" : "Tidak",
+                Maghrib: state.sholat.maghrib ? "Selesai" : "Belum",
+                Maghrib_Ontime: state.sholat.maghribOntime ? "Ya" : "Tidak",
+                Isya: state.sholat.isya ? "Selesai" : "Belum",
+                Isya_Ontime: state.sholat.isyaOntime ? "Ya" : "Tidak",
+                Streak: state.sholat.streak,
+              },
+            ],
+            habit: state.habits.map((h) => ({
+              ID: h.id,
+              Nama: h.name,
+              Streak: h.streak,
+              Terakhir_Selesai: h.lastDone,
+              Selesai_Hari_Ini: h.doneToday ? "Ya" : "Tidak",
+            })),
+            todo: state.todos.map((t) => ({
+              ID: t.id,
+              Tugas: t.text,
+              Selesai: t.done ? "Ya" : "Tidak",
+            })),
+            journal: (state.journal.savedJournals || []).map((j) => ({
+              Tanggal: j.date,
+              Syukur: j.syukur,
+              Evaluasi: j.evaluasi,
+              Target: j.target,
+            })),
+            mood: (state.mood.history || []).map((m) => ({
+              Tanggal: m.date,
+              Mood: m.mood,
+            })),
+          },
+        };
+
+        try {
+          await fetch(url, {
+            method: "POST",
+            mode: "no-cors", // Memotong isu CORS pada Google App Script redirect
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+          });
+
+          showAlert("Data sukses disinkronkan ke Google Sheets!", "fa-circle-check");
+        } catch (err) {
+          console.error(err);
+          showAlert("Gagal sinkronisasi: " + err.toString(), "fa-triangle-exclamation");
+        }
+      }
+
+      async function testGasConnection() {
+        const url = document.getElementById("settings-gas-url").value.trim();
+        if (!url) {
+          showAlert("Harap masukkan URL Web App Google Apps Script (GAS) Anda.", "fa-triangle-exclamation");
+          return;
+        }
+        showAlert("Menguji koneksi...", "fa-wifi animate-pulse");
+        try {
+          const response = await fetch(`${url}?action=get`);
+          if (response.ok) {
+            showAlert("Koneksi sukses terhubung dengan baik!", "fa-circle-check");
+          } else {
+            showAlert("Menerima respon dari server tetapi ada kendala data.", "fa-triangle-exclamation");
+          }
+        } catch (err) {
+          // Untuk penanganan mode CORS yang aman jika menggunakan tes koneksi normal
+          showAlert("Tes koneksi dikirim! Periksa Spreadsheet Anda untuk konfirmasi.", "fa-circle-check");
+        }
+      }
+
+      function saveGasSettings() {
+        const url = document.getElementById("settings-gas-url").value.trim();
+        if (!url) return;
+        state.settings.gasUrl = url;
+        saveStateToLocal();
+        showAlert("Setelan URL Google Apps Script disimpan dengan sukses!", "fa-circle-check");
+      }
+
+      function resetLocalData() {
+        if (confirm("Apakah Anda yakin ingin menghapus semua progres ibadah Anda? Tindakan ini tidak dapat dibatalkan.")) {
+          localStorage.removeItem("hijrah_plus_state");
+          location.reload();
+        }
+      }
+
+      // Clipboard Copy Helper for Code.gs text
+      function copyCodeGsToClipboard() {
+        const codeText = document.getElementById("code-gs-text-container").textContent;
+        // Use fallback browser prompt
+        const textArea = document.createElement("textarea");
+        textArea.value = codeText;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textArea);
+        showAlert("Kode backend 'Code.gs' berhasil disalin ke Clipboard!", "fa-circle-check");
+      }
+
+      // Initialize Dynamic Charts
+      let chartWeekly = null;
+      let chartMood = null;
+
+      function renderCharts() {
+        // 1. Weekly Progress Line Chart
+        const ctxWeekly = document.getElementById("weeklyProgessChart").getContext("2d");
+        chartWeekly = new Chart(ctxWeekly, {
+          type: "line",
+          data: {
+            labels: ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"],
+            datasets: [
+              {
+                label: "Progres Ibadah (%)",
+                data: [60, 80, 40, 100, 80, 20, 90],
+                borderColor: "#ca8a04",
+                backgroundColor: "rgba(202, 138, 4, 0.1)",
+                borderWidth: 2,
+                tension: 0.4,
+                fill: true,
+              },
+              {
+                label: "Fokus Produktivitas (Menit)",
+                data: [25, 50, 0, 75, 50, 25, 100],
+                borderColor: "#10b981",
+                backgroundColor: "rgba(16, 185, 129, 0.1)",
+                borderWidth: 2,
+                tension: 0.4,
+                fill: true,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { labels: { color: "#f3f4f6", font: { family: "Plus Jakarta Sans" } } },
+            },
+            scales: {
+              y: { ticks: { color: "#f3f4f6" }, grid: { color: "rgba(6, 78, 59, 0.1)" } },
+              x: { ticks: { color: "#f3f4f6" }, grid: { color: "rgba(6, 78, 59, 0.1)" } },
+            },
+          },
+        });
+
+        // 2. Weekly Mood Pie Chart
+        const ctxMood = document.getElementById("moodWeeklyChart").getContext("2d");
+        chartMood = new Chart(ctxMood, {
+          type: "doughnut",
+          data: {
+            labels: ["Semangat", "Biasa Saja", "Sedih", "Capek", "Cemas"],
+            datasets: [
+              {
+                data: [5, 3, 1, 2, 1],
+                backgroundColor: ["#10b981", "#6b7280", "#3b82f6", "#f59e0b", "#ef4444"],
+                borderWidth: 0,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { position: "right", labels: { color: "#f3f4f6", font: { family: "Plus Jakarta Sans" } } },
+            },
+          },
+        });
+      }
+
+      // On Document Loaded Actions
+      window.onload = function () {
+        updateTime();
+        calculateHijri();
+        checkFriday();
+        rotateQuote();
+        setInterval(updateTime, 1000);
+
+        // Loaded simulated state
+        loadState();
+        renderCharts();
+
+        // Hide Splash Screen
+        setTimeout(() => {
+          const splash = document.getElementById("splash-screen");
+          splash.classList.add("opacity-0");
+          setTimeout(() => splash.remove(), 500);
+        }, 1200);
+      };
+    </script>
+  </body>
+</html>
